@@ -1,0 +1,132 @@
+@keyframes billboard-creak {
+  from {
+    transform: rotate(-0.7deg);
+  }
+  to {
+    transform: rotate(0.7deg);
+  }
+}
+
+.billboard {
+  flex: 0 0 auto;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.billboard__board {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  max-height: 74vh;
+  background: #fcfcfc;
+  border: 4px solid #111;
+  transform-origin: 50% 100%;
+  animation-name: billboard-creak;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.billboard__board:hover {
+  transform: translateY(-10px);
+  box-shadow: 14px 16px 0 #111 !important;
+}
+
+.billboard__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #111;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.billboard__eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+}
+
+.billboard__num {
+  font-size: 13px;
+  color: #8a8a8a;
+}
+
+.billboard__grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+}
+
+.billboard__title {
+  margin: 0;
+  font-weight: normal;
+  font-family: inherit;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.04;
+  color: #f84356;
+  -webkit-text-stroke: 2px #111;
+  paint-order: stroke fill;
+}
+
+.billboard__desc {
+  margin: 10px 0 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #3d3d3d;
+}
+
+.billboard__chips {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 12px;
+}
+
+.billboard__chip {
+  padding: 3px 8px;
+  border: 2px solid #111;
+  border-radius: 4px;
+  color: #111;
+}
+
+.billboard__links {
+  margin-top: 18px;
+  display: flex;
+  gap: 16px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 14px;
+}
+
+/* Only the "desktop" board (layout: 'meta-row') uses this — its tags and
+   links sit in their own row below the mock+title grid instead of beside
+   it, separated by a lighter divider. */
+.billboard__meta {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 2px solid #d4d4d4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.billboard__meta .billboard__chips,
+.billboard__meta .billboard__links {
+  margin-top: 0;
+}
+
+.billboard__leg {
+  position: absolute;
+  bottom: 0;
+  background: #2b2b2b;
+}

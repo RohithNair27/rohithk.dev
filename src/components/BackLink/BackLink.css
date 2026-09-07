@@ -1,0 +1,7 @@
+.back-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  font-size: 16px;
+}

@@ -1,0 +1,13 @@
+.clouds-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.clouds-backdrop__cloud {
+  position: absolute;
+  width: 440px;
+  height: 120px;
+  background-repeat: no-repeat;
+}

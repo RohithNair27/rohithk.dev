@@ -1,0 +1,18 @@
+.page-title {
+  margin: 0;
+  font-weight: normal;
+  font-family: inherit;
+  line-height: 1.05;
+  color: #f84356;
+  -webkit-text-stroke: 3px #111;
+  paint-order: stroke fill;
+}
+
+.page-title--md {
+  font-size: clamp(34px, 5.4vw, 58px);
+}
+
+.page-title--lg {
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1;
+}

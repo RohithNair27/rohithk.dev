@@ -1,0 +1,31 @@
+.page-scene {
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-left: 6vw;
+  padding-right: 6vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: linear-gradient(#c9c9c9, #efefef 68%, #f6f6f6);
+  font-family: 'Otomanopee One', sans-serif;
+  color: #555;
+  overflow-x: hidden;
+}
+
+.page-scene a {
+  color: #222;
+  text-decoration: none;
+  border-bottom: 2px solid #f84356;
+}
+
+.page-scene a:hover {
+  color: #f84356;
+}
+
+.page-scene__vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.42));
+}

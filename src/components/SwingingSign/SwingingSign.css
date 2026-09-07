@@ -1,0 +1,29 @@
+.swinging-sign {
+  position: absolute;
+  top: 0;
+  width: 0;
+  transform-origin: 50% 0;
+  animation: swinging-sign-swing 7s ease-in-out infinite alternate;
+}
+
+@keyframes swinging-sign-swing {
+  from {
+    transform: rotate(calc(-1 * var(--sway-deg, 4deg)));
+  }
+  to {
+    transform: rotate(var(--sway-deg, 4deg));
+  }
+}
+
+.swinging-sign__rope {
+  position: absolute;
+  left: -2px;
+  top: 0;
+  width: 4px;
+  background: #2b2b2b;
+}
+
+.swinging-sign__hanger {
+  position: absolute;
+  background-repeat: no-repeat;
+}
