@@ -8,7 +8,7 @@ test.describe('Projects page', () => {
   test('shows the page title and every billboard', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Projects', level: 1 })).toBeVisible();
 
-    await expect(page.getByRole('heading', { name: 'Designing software' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Poke-battle' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'API performance' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Project three' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Mobile app' })).toBeVisible();
@@ -17,14 +17,21 @@ test.describe('Projects page', () => {
   });
 
   test('renders tags and links for each billboard', async ({ page }) => {
-    await expect(page.getByText('Figma', { exact: true })).toBeVisible();
+    await expect(page.getByText('Flask', { exact: true })).toBeVisible();
     await expect(page.getByText('Redis', { exact: true })).toBeVisible();
     await expect(page.getByText('React Native', { exact: true })).toBeVisible();
     await expect(page.getByText('Playwright', { exact: true })).toBeVisible();
     await expect(page.getByText('Pandas', { exact: true })).toBeVisible();
 
     await expect(page.getByRole('link', { name: 'Code' })).toHaveCount(5);
-    await expect(page.getByRole('link', { name: 'Case study' })).toHaveCount(1);
+    await expect(page.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
+      'href',
+      'https://github.com/PokeBattle-An-ASL-Game/Poke-battle',
+    );
+    await expect(page.getByRole('link', { name: 'Video' })).toHaveAttribute(
+      'href',
+      'https://www.youtube.com/watch?v=NJechzEHjQ4',
+    );
     await expect(page.getByRole('link', { name: 'App Store' })).toHaveCount(1);
   });
 

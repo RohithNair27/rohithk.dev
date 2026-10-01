@@ -8,14 +8,16 @@
 export const projects = [
   {
     id: 'design',
-    tag: 'design',
     num: '01',
     mock: 'design',
-    title: 'Designing software',
+    title: 'Poke-battle',
     description:
-      'How the interface was designed: the flows drawn, the components built, and what changed after testing it.',
-    tags: ['Figma', 'Design system'],
-    links: [{ label: 'Case study', href: '#' }],
+      'A Pokémon-style battle game where players attack by performing American Sign Language (ASL) words in front of their webcam.',
+    tags: ['React JS', 'Machine Learning', 'Flask'],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/PokeBattle-An-ASL-Game/Poke-battle' },
+      { label: 'Video', href: 'https://www.youtube.com/watch?v=NJechzEHjQ4' },
+    ],
     width: 'min(84vw, 600px)',
     paddingBottom: 52,
     board: { radius: '0', shadow: '13px 15px 0 #111', padding: '30px 32px' },

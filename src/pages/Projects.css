@@ -141,22 +141,6 @@
   background-size: 1176px 273px;
 }
 
-.billboard-scene__progress {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.1);
-  z-index: 25;
-}
-
-.billboard-scene__progress-bar {
-  height: 100%;
-  width: 0;
-  background: #f84356;
-}
-
 .billboard-scene__vignette {
   position: fixed;
   inset: 0;

@@ -55,7 +55,7 @@ src/
     PageTitle/         big red outlined page title
     Timeline/          vertical timeline used by the Experience page
   pages/
-    KaijuHome.jsx      the animated landing/"walk" scene (GSAP + ScrollTrigger + MotionPathPlugin)
+    Home.jsx           the animated landing/"walk" scene (GSAP + ScrollTrigger + MotionPathPlugin)
     About.jsx
     Experience.jsx
     Projects.jsx
@@ -69,6 +69,6 @@ e2e/
 
 Subpages (About, Experience, Projects, QA Lab) share `PageScene`,
 `PageTitle`, and `BackLink` for the common background/clouds/rope/Home-button
-frame — only their own content differs. The landing page (`KaijuHome`) is
+frame — only their own content differs. The landing page (`Home`) is
 a standalone scene built directly from GSAP, since its scroll-driven
 mechanics don't fit that shared shell.

@@ -5,17 +5,18 @@ test.describe('Landing (Kaiju) page', () => {
     await page.goto('/');
   });
 
-  test('shows the intro copy and resume button', async ({ page }) => {
+  test('shows the intro copy and LinkedIn button', async ({ page }) => {
     await expect(page.getByText('hello my name is')).toBeVisible();
     await expect(page.locator('.preTitle[aria-label="Rohith"]')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Get Resume' })).toBeVisible();
+    await expect(page.locator('.resumeBtn')).toHaveText('LinkedIn');
+    await expect(page.locator('.resumeBtn')).toBeVisible();
   });
 
   test('shows the tagline and social links', async ({ page }) => {
     await expect(page.getByText('Frontend and QA Engineer')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
+    await expect(page.getByRole('link', { name: 'LinkedIn' }).last()).toHaveAttribute(
       'href',
-      'https://www.linkedin.com/',
+      'https://www.linkedin.com/in/rohithknair27/',
     );
     await expect(page.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
       'href',

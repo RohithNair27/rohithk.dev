@@ -26,6 +26,16 @@
   height: 100%;
 }
 
+/* Undo the blanket `div { position: absolute }` above for the shared
+ * ProgressBar component, which would otherwise scroll off with the track. */
+.kaiju-scene .progress-bar {
+  position: fixed;
+}
+
+.kaiju-scene .progress-bar__fill {
+  position: static;
+}
+
 .kaiju-scene .resumeBtn {
   position: fixed;
   z-index: 10;

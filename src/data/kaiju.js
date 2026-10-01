@@ -28,7 +28,7 @@ export const CLOUD_POSITIONS = [
 ];
 
 export const NAV = {
-  linkedin: "https://www.linkedin.com/",
+  linkedin: "https://www.linkedin.com/in/rohithknair27/",
   github: "https://github.com/",
   email: "mailto:rohithnair2711@gmail.com",
 };

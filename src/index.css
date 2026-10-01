@@ -17,7 +17,7 @@ body {
   min-height: 100vh;
 }
 
-/* Toggled by KaijuHome while it's mounted: that scene drives its "scroll"
+/* Toggled by Home while it's mounted: that scene drives its "scroll"
    off a wide horizontal track, so the page's normal vertical scrollbar
    would just get in the way. Every other route scrolls normally.
    Deliberately scoped to <html> only, not <body> too: giving both a

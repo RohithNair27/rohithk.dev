@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import HomeButton from '../components/HomeButton/HomeButton';
 import BackLink from '../components/BackLink/BackLink';
 import Billboard from '../components/Billboard/Billboard';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
 import { projects } from '../data/projects';
 import './Projects.css';
 
@@ -143,9 +144,7 @@ export default function Projects() {
         />
       </div>
 
-      <div className="billboard-scene__progress">
-        <div className="billboard-scene__progress-bar" ref={barRef} />
-      </div>
+      <ProgressBar ref={barRef} />
 
       <HomeButton />
       <div className="billboard-scene__vignette" aria-hidden="true" />

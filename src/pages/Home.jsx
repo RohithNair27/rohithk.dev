@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
 import { TITLE_LETTERS, CLOUD_POSITIONS, NAV } from '../data/kaiju';
-import './KaijuHome.css';
+import './Home.css';
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
@@ -28,9 +29,10 @@ const LABELS = [
  * scoped to this component's own DOM subtree via refs instead of global
  * ids so it can mount and unmount cleanly as a route.
  */
-export default function KaijuHome() {
+export default function Home() {
   const navigate = useNavigate();
   const sceneRef = useRef(null);
+  const barRef = useRef(null);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -148,6 +150,7 @@ export default function KaijuHome() {
           scrub: 0.5,
           onUpdate: (s) => {
             walkDir = s.direction;
+            if (barRef.current) barRef.current.style.width = `${s.progress * 100}%`;
           },
         },
       })
@@ -318,8 +321,10 @@ export default function KaijuHome() {
 
       <div className="dust" />
 
-      <a className="resumeBtn" href="#" download>
-        Get Resume
+      <ProgressBar ref={barRef} />
+
+      <a className="resumeBtn" href={NAV.linkedin} target="_blank" rel="noopener noreferrer">
+        LinkedIn
       </a>
 
       <div className="clickHint">click a building to explore</div>

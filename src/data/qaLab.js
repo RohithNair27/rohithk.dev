@@ -9,7 +9,7 @@ export const GROUPS = [
       'loads with the intro visible',
       'hello my name is renders',
       'Rohith wordmark renders all six letters',
-      'Get Resume button is reachable',
+      'LinkedIn button is reachable',
       'no console errors on load',
     ],
   },
