@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import PageScene from '../components/PageScene/PageScene';
 import PageTitle from '../components/PageTitle/PageTitle';
 import BackLink from '../components/BackLink/BackLink';
-import { GROUPS, API_TESTS, API_BODY, API_URL, RUN_ID } from '../data/qaLab';
+import { GROUPS, API_TESTS, API_URL, RUN_ID } from '../data/qaLab';
 import './QaLab.css';
 
 const TOTAL_TESTS = GROUPS.reduce((n, g) => n + g.tests.length, 0);
@@ -27,15 +27,18 @@ export default function QaLab() {
   const [done, setDone] = useState(false);
   const [lines, setLines] = useState(null);
   const [apiRunning, setApiRunning] = useState(false);
-  const [apiShown, setApiShown] = useState(0);
+  // One entry per API_TESTS item: { state: 'run' | 'pass' | 'fail', ms, error }.
+  const [apiResults, setApiResults] = useState([]);
+  const [apiMain, setApiMain] = useState(null);
 
   const timers = useRef([]);
-  const apiTimers = useRef([]);
+  // Bumped on every run and on unmount, so a stale run stops updating state.
+  const apiRunId = useRef(0);
 
   useEffect(
     () => () => {
       timers.current.forEach(clearTimeout);
-      apiTimers.current.forEach(clearTimeout);
+      apiRunId.current += 1;
     },
     [],
   );
@@ -76,18 +79,31 @@ export default function QaLab() {
     );
   };
 
-  const runApi = () => {
+  const runApi = async () => {
     if (apiRunning) return;
-    apiTimers.current.forEach(clearTimeout);
-    apiTimers.current = [];
+    const runId = ++apiRunId.current;
+    const live = () => runId === apiRunId.current;
     setApiRunning(true);
-    setApiShown(0);
-    API_TESTS.forEach((_, i) => {
-      apiTimers.current.push(setTimeout(() => setApiShown(i + 1), 220 * (i + 1)));
-    });
-    apiTimers.current.push(
-      setTimeout(() => setApiRunning(false), 220 * (API_TESTS.length + 1)),
-    );
+    setApiResults([]);
+    setApiMain(null);
+
+    const ctx = {};
+    for (let i = 0; i < API_TESTS.length; i++) {
+      setApiResults((r) => [...r.slice(0, i), { state: 'run' }]);
+      const t0 = performance.now();
+      let result;
+      try {
+        await API_TESTS[i].run(ctx);
+        result = { state: 'pass' };
+      } catch (err) {
+        result = { state: 'fail', error: err.message };
+      }
+      if (!live()) return;
+      result.ms = Math.round(performance.now() - t0);
+      setApiResults((r) => [...r.slice(0, i), result]);
+      if (i === 0) setApiMain(ctx.main ?? null);
+    }
+    setApiRunning(false);
   };
 
   const consoleLines = lines || [
@@ -103,16 +119,27 @@ export default function QaLab() {
       ? `All ${TOTAL_TESTS}/${TOTAL_TESTS} tests passed successfully.`
       : `idle — ${TOTAL_TESTS} specs ready to run`;
 
-  const apiComplete = apiShown === API_TESTS.length;
+  const apiPassed = apiResults.filter((r) => r.state === 'pass').length;
+  const apiComplete = !apiRunning && apiResults.length === API_TESTS.length;
   const apiBtn = apiRunning ? 'SENDING…' : 'RUN API TESTS';
   const apiStatus = apiRunning
     ? `running ${API_TESTS.length} assertions against the live endpoint…`
     : apiComplete
-      ? `${API_TESTS.length} of ${API_TESTS.length} assertions passing`
+      ? `${apiPassed} of ${API_TESTS.length} assertions passing`
       : `idle — ${API_TESTS.length} assertions ready to run`;
-  const apiCode = apiRunning ? '…' : apiComplete ? '200 OK' : 'no request sent';
-  const apiCodeColor = apiRunning ? '#DBB97B' : apiComplete ? '#8fd48a' : '#777';
-  const apiBody = apiComplete ? API_BODY : '// press RUN API TESTS to send the request';
+  const apiCode = apiMain
+    ? `${apiMain.res.status} ${apiMain.res.statusText || (apiMain.res.ok ? 'OK' : '')}`.trim()
+    : apiRunning
+      ? '…'
+      : apiResults.length
+        ? 'request failed'
+        : 'no request sent';
+  const apiCodeColor = apiMain?.res.ok ? '#8fd48a' : apiRunning ? '#DBB97B' : apiResults.length ? '#f84356' : '#777';
+  const apiBody = apiMain
+    ? Array.isArray(apiMain.body) && apiMain.body.length > 2
+      ? `${JSON.stringify(apiMain.body.slice(0, 2), null, 2).slice(0, -2)}\n  // …${apiMain.body.length - 2} more\n]`
+      : JSON.stringify(apiMain.body, null, 2)
+    : '// press RUN API TESTS to send the request';
 
   return (
     <PageScene className="qa-lab-page" paddingBottom={90}>
@@ -203,7 +230,7 @@ export default function QaLab() {
 
         <div className="qa-api">
           <div className="qa-api__head">
-            <div className="qa-card__kicker">API TESTING · POSTMAN COLLECTION</div>
+            <div className="qa-card__kicker">API TESTING · LIVE REQUESTS</div>
             <div className="qa-api__status-text">{apiStatus}</div>
           </div>
 
@@ -218,9 +245,9 @@ export default function QaLab() {
           <div className="qa-api__grid">
             <div className="qa-api__tests">
               {API_TESTS.map((a, i) => {
-                const passed = i < apiShown;
-                const isRunning = apiRunning && i === apiShown;
-                const color = passed ? '#4f9a49' : '#7a7368';
+                const r = apiResults[i];
+                const state = r?.state ?? 'idle';
+                const color = { pass: '#4f9a49', fail: '#f84356', run: '#DBB97B' }[state] ?? '#7a7368';
                 return (
                   <div
                     key={a.name}
@@ -228,10 +255,13 @@ export default function QaLab() {
                     style={{ borderLeftColor: color }}
                   >
                     <div className="qa-api-test__state" style={{ color }}>
-                      {passed ? 'PASS' : isRunning ? 'RUN' : 'IDLE'}
+                      {state.toUpperCase()}
                     </div>
-                    <div className="qa-api-test__name">{a.name}</div>
-                    <div className="qa-api-test__ms">{passed ? a.ms : ''}</div>
+                    <div className="qa-api-test__name">
+                      {a.name}
+                      {r?.error && <div className="qa-api-test__error">{r.error}</div>}
+                    </div>
+                    <div className="qa-api-test__ms">{r?.ms != null ? `${r.ms}ms` : ''}</div>
                   </div>
                 );
               })}

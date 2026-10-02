@@ -367,6 +367,11 @@
   color: #063d4b;
 }
 
+.qa-api-test__error {
+  font-size: 12px;
+  color: #f84356;
+}
+
 .qa-api-test__ms {
   flex: none;
   font-family: 'Silkscreen', monospace;
