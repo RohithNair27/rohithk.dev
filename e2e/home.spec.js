@@ -14,7 +14,9 @@ test.describe('Landing (Kaiju) page', () => {
 
   test('shows the tagline and social links', async ({ page }) => {
     await expect(page.getByText('Frontend and QA Engineer')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'LinkedIn' }).last()).toHaveAttribute(
+    // LinkedIn lives only in the top button now, not the blurb links.
+    await expect(page.getByRole('link', { name: 'LinkedIn' })).toHaveCount(1);
+    await expect(page.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
       'href',
       'https://www.linkedin.com/in/rohithknair27/',
     );

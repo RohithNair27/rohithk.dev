@@ -153,10 +153,6 @@ export function ApiMockup() {
           db
         </div>
       </div>
-      <div style={{ marginTop: 10, width: '100%', display: 'flex', alignItems: 'center', gap: 6 }}>
-        <div style={{ flex: 1, height: 2, background: '#111', opacity: 0.6 }} />
-        <span style={{ color: '#f84356' }}>120ms</span>
-      </div>
     </div>
   );
 }

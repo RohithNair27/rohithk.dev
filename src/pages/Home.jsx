@@ -357,9 +357,6 @@ export default function Home() {
           <div className="blurbTxt">Frontend and QA Engineer</div>
         </div>
         <div className="blurbLinks">
-          <a href={NAV.linkedin} target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
           <a href={NAV.github} target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
